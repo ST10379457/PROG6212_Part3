@@ -1,0 +1,57 @@
+﻿@page
+@model ST10379457_PROG6212_POE.Pages.UserLoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+ 
+<div class="container mt-5"> <!--(W3schools, 2024)-->
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header text-center">
+                    <h3 class="card-title">Login</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="form-group mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required />
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select id="role" name="roleFullName" class="form-control" required>
+                                <option value="">Select Role</option>
+                                <option value="Independent Contractor Lecturer">Independent Contractor Lecturer</option>
+                                <option value="Programme Coordinator">Programme Coordinator</option>
+                                <option value="Academic Manager">Academic Manager</option>
+                            </select>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Login</button> <!--(W3schools, 2024)-->
+                        </div>
+                        <div class="text-center mt-3">
+                            @if (!string.IsNullOrEmpty(Model.LoginMessage))
+                            {
+                                <span class="text-danger">@Model.LoginMessage</span> <!--(W3schools, 2024)-->
+                            }
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Reference list:
+W3schools. 2024. HTML Images. [Online]. Available at: https://www.w3schools.com/html/html_images.asp
+W3schools. 2024. HTML Tables. [Online]. Available at: https://www.w3schools.com/html/html_tables.asp
+W3schools. 2024. HTML Headings. [Online]. Available at: https://www.w3schools.com/htmL/html_headings.asp
+W3schools. 2024. HTML <button> Tag. [Online]. Available at: https://www.w3schools.com/tags/tag_button.asp
+W3schools. 2024. HTML <div> Tag. [Online]. Available at: https://www.w3schools.com/tags/tag_div.ASP
+W3schools. 2024. HTML <select> Tag. [Online]. Available at: https://www.w3schools.com/tags/tag_select.asp
+W3schools. 2024. HTML <span> Tag. [Online]. Available at: https://www.w3schools.com/tags/tag_span.asp
+-->

@@ -1,0 +1,90 @@
+﻿@page
+@model IndependentContractorLecturerModel
+@{
+    ViewData["Title"] = "Independent Contractor Lecturer Dashboard";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card shadow-lg">
+                <div class="card-header text-center">
+                    <h3 class="card-title">Submit Your Claim</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Claim Submission Form -->
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="ModuleName" class="form-label">Module Name</label>
+                            <input type="text" name="ModuleName" class="form-control" placeholder="Enter Module Name" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="ModuleCode" class="form-label">Module Code</label>
+                            <input type="text" name="ModuleCode" class="form-control" placeholder="Enter Module Code" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="ClassGroup" class="form-label">Class/Group</label>
+                            <input type="text" name="ClassGroup" class="form-control" placeholder="Enter Class/Group" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="HoursWorked" class="form-label">Hours Worked</label>
+                            <input type="number" name="HoursWorked" class="form-control" placeholder="Hours Worked" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Document" class="form-label">Document Submission</label>
+                            <input type="file" name="Document" class="form-control" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Claim</button>
+                    </form>
+
+                    <hr>
+
+                    <!-- Claims Table -->
+                    <h4 class="mt-4">Your Submitted Claims</h4>
+                    <div class="table-responsive">
+                        <table id="claimTable" class="table table-bordered table-striped" style="width: 100%;">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 10%;">Module Name</th>
+                                    <th style="width: 10%;">Module Code</th>
+                                    <th style="width: 10%;">Class/Group</th>
+                                    <th style="width: 10%;">Hours Worked</th>
+                                    <th style="width: 20%;">Document Submission</th>
+                                    <th style="width: 10%;">Status</th>
+                                    <th style="width: 10%;">Date of Submission</th>
+                                    <th style="width: 10%;">Claim Amount (R)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                @foreach (var claim in Model.ClaimsList2)
+                                {
+                                    <tr>
+                                        <td>@claim.moduleName2</td>
+                                        <td>@claim.moduleCode2</td>
+                                        <td>@claim.classGroup2</td>
+                                        <td>@claim.hours2</td>
+                                        <td><span class="badge bg-warning text-dark">@claim.status2</span></td>
+                                        <td>@claim.dateOfSubmission2</td>
+                                        <td>@(claim.hours2 * 500)</td> <!-- Display the calculated Claim Amount -->
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer text-muted text-center">
+                    <p>@Model.LoginMessage</p> <!-- Display login message -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Reference list:
+W3schools. 2024. HTML Images. [Online]. Available at: https://www.w3schools.com/html/html_images.asp
+W3schools. 2024. HTML Tables. [Online]. Available at: https://www.w3schools.com/html/html_tables.asp
+W3schools. 2024. HTML Headings. [Online]. Available at: https://www.w3schools.com/htmL/html_headings.asp
+W3schools. 2024. HTML <button> Tag. [Online]. Available at: https://www.w3schools.com/tags/tag_button.asp
+W3schools. 2024. HTML <div> Tag. [Online]. Available at: https://www.w3schools.com/tags/tag_div.ASP
+W3schools. 2024. HTML <select> Tag. [Online]. Available at: https://www.w3schools.com/tags/tag_select.asp
+W3schools. 2024. HTML <span> Tag. [Online]. Available at: https://www.w3schools.com/tags/tag_span.asp
+-->

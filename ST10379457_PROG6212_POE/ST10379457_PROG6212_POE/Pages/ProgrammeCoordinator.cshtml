@@ -1,0 +1,57 @@
+﻿@page
+@model ST10379457_PROG6212_POE.Pages.ProgrammeCoordinatorModel
+@{
+    ViewData["Title"] = "Programme Coordinator Dashboard";
+}
+
+<h2>Pending Claims</h2><!--(W3schools, 2024)-->
+
+<table class="table"><!--(W3schools, 2024)-->
+    <thead>
+        <tr>
+            <th>Claim ID</th>
+            <th>User ID</th>
+            <th>Module Name</th>
+            <th>Module Code</th>
+            <th>Class Group</th>
+            <th>Hours Worked</th>
+            <th>Claim Amount</th>
+            <th>Status</th>
+            <th>Date of Submission</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model.ClaimsList) 
+        {
+            <tr>
+                <td>@claim.claimID</td>
+                <td>@claim.userID</td>
+                <td>@claim.moduleName</td>
+                <td>@claim.moduleCode</td>
+                <td>@claim.classGroup</td>
+                <td>@claim.hours</td>
+                <td>@claim.claimAmount</td>
+                <td>@claim.status</td>
+                <td>@claim.dateOfSubmission</td>
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="claimID" value="@claim.claimID" />
+                        <button type="submit" asp-page-handler="Accept" class="btn btn-success">Accept</button>
+                        <button type="submit" asp-page-handler="Reject" class="btn btn-danger">Reject</button>
+                    </form>
+                </td>
+            </tr>
+        } <!--(W3schools, 2024)-->
+    </tbody>
+</table>
+<!--Reference list:
+W3schools. 2024. HTML Images. [Online]. Available at: https://www.w3schools.com/html/html_images.asp
+W3schools. 2024. HTML Tables. [Online]. Available at: https://www.w3schools.com/html/html_tables.asp
+W3schools. 2024. HTML Headings. [Online]. Available at: https://www.w3schools.com/htmL/html_headings.asp
+W3schools. 2024. HTML <button> Tag. [Online]. Available at: https://www.w3schools.com/tags/tag_button.asp
+W3schools. 2024. HTML <div> Tag. [Online]. Available at: https://www.w3schools.com/tags/tag_div.ASP
+W3schools. 2024. HTML <select> Tag. [Online]. Available at: https://www.w3schools.com/tags/tag_select.asp
+W3schools. 2024. HTML <span> Tag. [Online]. Available at: https://www.w3schools.com/tags/tag_span.asp
+W3schools. 2024. JavaScript Array forEach(). [Online]. Available at: https://www.w3schools.com/jsref/jsref_foreach.asp
+-->
