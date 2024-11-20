@@ -71,12 +71,35 @@ namespace ST10379457_PROG6212_POE.Pages
                                 Email = reader["Email"].ToString();
                                 Phone_Number = reader["PhoneNumber"].ToString();
                                 Role = reader["Role"].ToString();
-                                TempData["UserID"] = userID; 
-                                LoginMessage = "Login successful!";
+                                //TempData["UserID"] = userID;
 
-                                // Redirect based on role
-                                if (Role == "IC")
+                                string filePath = "UserLoggedIn.txt";
+
+                                try
+                                { 
+
+                                    // Replace the file content with "1"
+                                    System.IO.File.WriteAllText(filePath, userID);
+
+                                    // Read the first line of the file
+                                    string userLoggedIn = System.IO.File.ReadAllText(filePath);
+
+                                    // Display the first line
+                                    //Console.WriteLine("The first line in the file is:");
+                                    Console.WriteLine(userLoggedIn);
+                                }
+                                catch (FileNotFoundException)
                                 {
+                                    Console.WriteLine("The file 'file.txt' was not found.");
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine($"An error occurred: {ex.Message}");
+                                }
+
+                                    // Redirect based on role
+                                if (Role == "IC")
+                                {   
                                     // Redirect to the Independent Contractor Lecturer Dashboard
                                     return RedirectToPage("/IndependentContractorLecturer");
                                 }

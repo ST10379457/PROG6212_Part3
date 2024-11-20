@@ -7,24 +7,75 @@ namespace ST10379457_PROG6212_POE.Pages
 {
     public class IndependentContractorLecturerModel : PageModel
     {
-        public int UserID { get; set; }
+        //public int UserID { get; set; }
         public string LoginMessage { get; set; }
         public List<Claim1> ClaimsList2 { get; set; } = new List<Claim1>(); // default to empty list for all ways this page is rendered etc., always return empty lists over nothing unless you explicitly can expect nothing like Find....method-name-something which means nothing can be returned
 
         // Only works for OnGet, when you do OnPost then the below is not triggered, meaning no data is initialized, then ClaimsList2 is null for LoadClaimsForUser
         public void OnGet()
         {
-            string userID = TempData["UserID"]?.ToString();
-            if (!string.IsNullOrEmpty(userID))
+            //string userID = TempData["UserID"]?.ToString();
+
+            string userLoggedIn = "0";
+            string filePath = "UserLoggedIn.txt";
+
+            try
             {
-                LoginMessage = $"{userID} is logged in.";
-                UserID = int.Parse(userID);
+
+                // Replace the file content with "1"
+                //System.IO.File.WriteAllText(filePath, userID);
+
+                // Read the first line of the file
+                userLoggedIn = System.IO.File.ReadAllText(filePath);
+
+                // Display the first line
+                //Console.WriteLine("The first line in the file is:");
+                Console.WriteLine(userLoggedIn);
+
+                LoginMessage = $"{userLoggedIn} is logged in.";
                 LoadClaimsForUser();
             }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("The file 'file.txt' was not found.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
+            
+            /*
+            if (!string.IsNullOrEmpty(userID))
+            {
+                
+                UserID = int.Parse(userID);
+                
+            }
+            */
         }
 
         private void PostClaim(string ModuleName, string ModuleCode, int ClassGroup, int HoursWorked)
         {
+            string userLoggedIn = "0";
+            string filePath = "UserLoggedIn.txt";
+
+            try
+            {
+                // Read the first line of the file
+                userLoggedIn = System.IO.File.ReadAllText(filePath);
+
+                Console.WriteLine(userLoggedIn);
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("The file 'file.txt' was not found.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
             string connectionString = "Data Source=JOHNSLAPTOP;Initial Catalog=ContractMonthlyClaimSystemDB;Integrated Security=True;Encrypt=False;TrustServerCertificate=True";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -34,7 +85,7 @@ namespace ST10379457_PROG6212_POE.Pages
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@UserID", UserID);
+                    command.Parameters.AddWithValue("@UserID", int.Parse(userLoggedIn));
                     command.Parameters.AddWithValue("@ModuleName", ModuleName);
                     command.Parameters.AddWithValue("@ModuleCode", ModuleCode);
                     command.Parameters.AddWithValue("@ClassGroup", ClassGroup);
@@ -46,11 +97,31 @@ namespace ST10379457_PROG6212_POE.Pages
                     command.ExecuteNonQuery();
                 }
             }
+            LoginMessage = $"{userLoggedIn} is logged in.";
             LoadClaimsForUser();
         }
 
         private void LoadClaimsForUser()
         {
+            string userLoggedIn = "0";
+            string filePath = "UserLoggedIn.txt";
+
+            try
+            {
+                // Read the first line of the file
+                userLoggedIn = System.IO.File.ReadAllText(filePath);
+
+                Console.WriteLine(userLoggedIn);
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("The file 'file.txt' was not found.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
             string connectionString = "Data Source=JOHNSLAPTOP;Initial Catalog=ContractMonthlyClaimSystemDB;Integrated Security=True;Encrypt=False;TrustServerCertificate=True";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -60,7 +131,7 @@ namespace ST10379457_PROG6212_POE.Pages
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@UserID", UserID);
+                    command.Parameters.AddWithValue("@UserID", userLoggedIn);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
