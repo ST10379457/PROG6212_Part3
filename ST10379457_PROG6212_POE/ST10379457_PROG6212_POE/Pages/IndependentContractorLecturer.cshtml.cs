@@ -9,20 +9,21 @@ namespace ST10379457_PROG6212_POE.Pages
     {
         public int UserID { get; set; }
         public string LoginMessage { get; set; }
-        public List<Claim1> ClaimsList2 { get; set; }
+        public List<Claim1> ClaimsList2 { get; set; } = new List<Claim1>(); // default to empty list for all ways this page is rendered etc., always return empty lists over nothing unless you explicitly can expect nothing like Find....method-name-something which means nothing can be returned
 
+        // Only works for OnGet, when you do OnPost then the below is not triggered, meaning no data is initialized, then ClaimsList2 is null for LoadClaimsForUser
         public void OnGet()
         {
-            ClaimsList2 = new List<Claim1>();
             string userID = TempData["UserID"]?.ToString();
             if (!string.IsNullOrEmpty(userID))
             {
                 LoginMessage = $"{userID} is logged in.";
                 UserID = int.Parse(userID);
-                LoadClaimsForUser(UserID);
+                LoadClaimsForUser();
             }
         }
-        private void PostClaim(string ModuleName, string ModuleCode, int ClassGroup, int HoursWorked, int userID)
+
+        private void PostClaim(string ModuleName, string ModuleCode, int ClassGroup, int HoursWorked)
         {
             string connectionString = "Data Source=JOHNSLAPTOP;Initial Catalog=ContractMonthlyClaimSystemDB;Integrated Security=True;Encrypt=False;TrustServerCertificate=True";
 
@@ -33,7 +34,7 @@ namespace ST10379457_PROG6212_POE.Pages
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@UserID", userID);
+                    command.Parameters.AddWithValue("@UserID", UserID);
                     command.Parameters.AddWithValue("@ModuleName", ModuleName);
                     command.Parameters.AddWithValue("@ModuleCode", ModuleCode);
                     command.Parameters.AddWithValue("@ClassGroup", ClassGroup);
@@ -45,9 +46,10 @@ namespace ST10379457_PROG6212_POE.Pages
                     command.ExecuteNonQuery();
                 }
             }
+            LoadClaimsForUser();
         }
 
-        private void LoadClaimsForUser(int userID)
+        private void LoadClaimsForUser()
         {
             string connectionString = "Data Source=JOHNSLAPTOP;Initial Catalog=ContractMonthlyClaimSystemDB;Integrated Security=True;Encrypt=False;TrustServerCertificate=True";
 
@@ -58,7 +60,7 @@ namespace ST10379457_PROG6212_POE.Pages
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@UserID", userID);
+                    command.Parameters.AddWithValue("@UserID", UserID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -84,11 +86,8 @@ namespace ST10379457_PROG6212_POE.Pages
 
         public IActionResult OnPost(string ModuleName, string ModuleCode, int ClassGroup, int HoursWorked)
         {
-            PostClaim(ModuleName, ModuleCode, ClassGroup, HoursWorked, UserID);
 
-            // Reload claims after submission
-            LoadClaimsForUser(UserID);
-
+            PostClaim(ModuleName, ModuleCode, ClassGroup, HoursWorked);
             return RedirectToPage(); // Refresh the page to see updated claims
         }
     }
